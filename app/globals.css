@@ -1,26 +1,129 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
+
+:root,
+html[data-theme="light"],
+html.light,
+html:not(.dark) {
+  --background: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface-hover: #F4F4F5;
+  --border-subtle: #E4E4E7;
+  --border-active: #09090B;
+  --foreground: #09090B;
+  --muted: #71717A;
+  --accent: #09090B;
+  --accent-light: #2563EB;
+}
+
+html[data-theme="dark"],
+html.dark {
+  --background: #05070B;
+  --surface: #0B1220;
+  --surface-hover: #111A2E;
+  --border-subtle: #151E32;
+  --border-active: #2563EB;
+  --foreground: #FFFFFF;
+  --muted: #94A3B8;
+  --accent: #2563EB;
+  --accent-light: #60A5FA;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-active: var(--border-active);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection {
+  background-color: #2563EB;
+  color: #FFFFFF;
+}
+
+/* Restrained Blue Glows (Dark) & Studio Shadows (Light) */
+.dark .blue-glow {
+  box-shadow: 0 0 24px -4px rgba(37, 99, 235, 0.35);
+}
+
+.blue-glow {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+}
+
+.dark .blue-glow-hover:hover {
+  box-shadow: 0 0 28px -2px rgba(37, 99, 235, 0.45);
+  border-color: #2563EB;
+}
+
+.blue-glow-hover:hover {
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.12);
+  border-color: #09090B;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
+}
+
+/* Skeletons */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    #0B1220 25%,
+    #151E32 50%,
+    #0B1220 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #F4F4F5 25%,
+    #E4E4E7 50%,
+    #F4F4F5 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
 }
